@@ -1,1 +1,7 @@
 venv
+Tesseract-OCR
+poppler
+dist
+build
+validacao_cnh.jpg
+dados_cnh.json
