@@ -1,1 +1,1 @@
-pyinstaller --name ExtratorCNH --noconsole --add-data "data;data" --add-data "Tesseract-OCR;Tesseract-OCR" --add-data "poppler;poppler" main.py
+pyinstaller --name ExtratorDadosPDF --noconsole --add-data "data;data" --add-data "Tesseract-OCR;Tesseract-OCR" --add-data "poppler;poppler" main.py

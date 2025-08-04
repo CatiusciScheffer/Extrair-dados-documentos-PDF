@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "C:\Users\cpcsc\Documents\Documentos\GitHub\Extrair dados PDF\Extrair-dados-documentos-PDF\teste_sem_poppler.py", line 75, in processar_cnh
+    raise FileNotFoundError("Documento verificado não parece ser uma CNH válida.")
+FileNotFoundError: Documento verificado não parece ser uma CNH válida.
