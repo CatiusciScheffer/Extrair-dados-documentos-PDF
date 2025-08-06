@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import difflib
 import uuid
 import tempfile
 import numpy as np
@@ -41,6 +42,13 @@ def ocr_regiao(imagem, coords):
     texto = pytesseract.image_to_string(binarizada, lang='por')
     return texto.strip().replace('\n', ' ')
 
+def contem_semelhante(texto, termo, limiar=0.8):
+    palavras = texto.upper().split()
+    for palavra in palavras:
+        if difflib.SequenceMatcher(None, palavra, termo.upper()).ratio() >= limiar:
+            return True
+    return False
+
 # =============================================================================
 # 2. PROCESSADORES DE DOCUMENTOS
 # =============================================================================
@@ -74,14 +82,20 @@ def processar_cnh(caminho_pdf, base_path):
 
     texto_cabecalho = ocr_regiao(imagem, coords_cabecalho["cabecalho"])
     
-    if "HABILITAÇÃO" not in texto_cabecalho.upper():
+    texto_upper = texto_cabecalho.upper()
+
+    if not contem_semelhante(texto_upper, "HABILITAÇÃO") and "CNH DIGITAL" not in texto_upper:
         raise ValueError("Documento não parece ser uma CNH válida (cabeçalho não corresponde).")
+
     
     # --- Seleção do JSON de coordenadas apropriado ---
-    if "DRIVER LICENSE" in texto_cabecalho or "PERMISO DE CONDUCCIÓN" in texto_cabecalho:
+    if "DRIVER LICENSE" in texto_upper or "PERMISO DE CONDUCCIÓN" in texto_upper:
         arquivo_json_modelo = r"data\coord_cnh_nacional.json"
-    elif "CNH Digital" in texto_cabecalho:
-        arquivo_json_modelo = r"data\coord_cnh_digital.json"
+    elif "CNH DIGITAL" in texto_upper:
+        if "NC" not in texto_upper:
+            arquivo_json_modelo = r"data\coord_cnh_antiga.json"
+        else:
+            arquivo_json_modelo = r"data\coord_cnh_digital.json"    
     else:
         arquivo_json_modelo = r"data\coord_cnh_estadual.json"
 
@@ -170,6 +184,9 @@ if __name__ == '__main__':
 
         doc_type = sys.argv[1].upper()
         caminho_pdf_arg = sys.argv[2]
+        # Debug
+        # doc_type = "CNH"
+        # caminho_pdf_arg = r"C:\Users\cpcsc\Downloads\documentos_teste\documentos\cnh_0.pdf"
         
         if not os.path.exists(caminho_pdf_arg):
             raise FileNotFoundError(f"Arquivo PDF não encontrado no caminho: {caminho_pdf_arg}")
@@ -183,6 +200,7 @@ if __name__ == '__main__':
             "CNH": processar_cnh,
             "CRLV": processar_crlv 
         }
+        
 
         # --- Despacho para a Função Correta ---
         if doc_type in PROCESSADORES:

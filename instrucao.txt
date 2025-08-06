@@ -1,1 +1,5 @@
+# Gerar Executável
 pyinstaller --name ExtratorDadosPDF --noconsole --add-data "data;data" --add-data "Tesseract-OCR;Tesseract-OCR" --add-data "poppler;poppler" main.py
+
+# Rodar o Executácel:
+python main.py "CNH" "C:\Users\cpcsc\Downloads\documentos_teste\documentos\cnh_0.pdf"
