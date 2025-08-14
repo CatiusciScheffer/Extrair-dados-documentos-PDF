@@ -1,5 +1,32 @@
 # Gerar Executável
 pyinstaller --name ExtratorDadosPDF --noconsole --add-data "data;data" --add-data "Tesseract-OCR;Tesseract-OCR" --add-data "poppler;poppler" main.py
 
+pyinstaller ExtratorDadosPDF.spec
+
 # Rodar o Executácel:
 python main.py "CNH" "C:\Users\cpcsc\Downloads\documentos_teste\documentos\cnh_0.pdf"
+
+#Gerar a árvore do sistema powershel:
+$root = "C:\Users\cpcsc\Documents\Documentos\GitHub\Extrair dados PDF\Extrair-dados-documentos-PDF"
+$excludeDirs = @("build", "dist", "poppler", "Tesseract-OCR", "venv")
+
+function Show-Tree($path, $prefix = "") {
+    $items = Get-ChildItem $path | Where-Object {
+        -not ($_.PSIsContainer -and $excludeDirs -contains $_.Name)
+    }
+
+    for ($i = 0; $i -lt $items.Count; $i++) {
+        $item = $items[$i]
+        $isLast = ($i -eq $items.Count - 1)
+        $symbol = if ($isLast) { "└── " } else { "├── " }
+
+        Write-Host "$prefix$symbol$item"
+
+        if ($item.PSIsContainer) {
+            $newPrefix = if ($isLast) { "$prefix    " } else { "$prefix│   " }
+            Show-Tree $item.FullName $newPrefix
+        }
+    }
+}
+
+Show-Tree $root

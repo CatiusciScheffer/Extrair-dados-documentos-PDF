@@ -6,3 +6,8 @@ build
 validacao_cnh.jpg
 dados_cnh.json
 imagem_a_mapear.jpg
+imagem_final_mapeada.jpg
+instrucao.txt
+log_erro.txt
+coordenadas_obtidas.json
+ExtratorDadosPDF.spec
