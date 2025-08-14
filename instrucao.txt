@@ -6,6 +6,8 @@ pyinstaller ExtratorDadosPDF.spec
 # Rodar o Executácel:
 python main.py "CNH" "C:\Users\cpcsc\Downloads\documentos_teste\documentos\cnh_0.pdf"
 
+python main.py "TARIFAS_BUONNY"" "C:\Users\cpcsc\Downloads\DemonstrativoServicos.pdf"
+
 #Gerar a árvore do sistema powershel:
 $root = "C:\Users\cpcsc\Documents\Documentos\GitHub\Extrair dados PDF\Extrair-dados-documentos-PDF"
 $excludeDirs = @("build", "dist", "poppler", "Tesseract-OCR", "venv")

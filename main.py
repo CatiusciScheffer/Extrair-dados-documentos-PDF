@@ -33,7 +33,7 @@ if __name__ == '__main__':
         PROCESSADORES = {
             "CNH": CNH.processar_cnh,
             "CRLV": CRLV.processar_crlv,
-            "Tarifas_Buonny": TarifasBuonny.ExtrairTarifasPDF 
+            "TARIFAS_BUONNY": TarifasBuonny.ExtrairTarifasPDF 
         }
         
 
